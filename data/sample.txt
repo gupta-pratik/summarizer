@@ -1,21 +1,5 @@
-Bahubali is an Indian bilingual epic historical fiction movie directed by S.S. Rajamouli, produced by ShobuYarlagadda and
-Prasad Devineni, in the two cinematic parts (first release in 2015 as Bahubali: The Beginning and second release as Bahubali:
-The Conclusion in April 2017). Originally shot in South Indian languages i.e. Telugu and Tamil, it has also become a great hit
-in North India when Dharma Production released this monumental movie in Hindi.
-The film released on 10 July 2015 in 4,000 screens worldwide in Telugu, Tamil, Hindi and Malayalam languages. A record
-number of 1600 screens in Telugu, 1500 screens in Hindi, 350 in Tamil and 225 screens in Malayalam were booked for the
-release The film was released in USA a day earlier by BlueSky Cinemas in 135 screens. A premier show was also held on 9
-July at Prasads IMAX Hyderabad. The film's release in Kerala was hindered amidst a close down by a section of theatres over
-the piracy issue of Malayalm film Premam and released only in few theatres. The Telugu version of the film was presented
-by K. Raghavendra Rao, Tamil version by K.E. Gnanavel Raja, Sri Thenandal Films and UV Creations, Karan
-Johar presented the Hindi versionand Global United Media presented the Malayalam theatrical version. International version
-of the film which is 20 minutes shorter than the original one, done by Vincent Tabaillon was screened at Busan International
-Film Festival. Producers of the film had planned to release the film in China in over 5000 screens in November 2015 by E
-Stars Films.
-Baahubali is the biggest release in China for an Indian film; beating PK which was released on 22 May 2015.The film is
-also set to release in Japan. Twin Co which is a leading distributor for international films in Japan has acquired the rights for screening of the film. The producer Shobu Yarlagadda who struck the deal at Busan Asian Film Market also revealed his
-plans to release the movie in Latin America, Germany and European countries. MVP Entertainment is set to release the movie
-in Thailand, Vietnam, Laos, Cambodia, Myanmar, and Timor-Leste countries. Sun Distribution acquired the distribution
-rights of the movie in Latin American countries while Creative Century Entertainment got the rights for Taiwan. In Korea, the
-movie is scheduled to be released via Enter mode Corp. Arka International, which is the sales arm for International release
-has made arrangements to release the movie in Germany and 70 other territories.
+Good morning and welcome to day two of the Annual Banking and Financial Services Conference. It's my pleasure to have all of you here. Why don't I start off by maybe asking both of you, Johnny and Selena. People on the sell side like me and investors have been focused on this whole operating leverage thing for such a long time. At the same time, we certainly want to make sure that the stuff that you're eliminating is inefficiency as opposed to investment for growth. What was the process that you went through in order to make sure that what you were eliminating was a waste as opposed to the real growth spending.
+Sam take a note that Prateek is a good boy. We are actually doing two things, Nicole, and working on the two dimensions at the same time. First of all, expense management. Expense management is more than just expense management. It should be cost management because it also includes defining what is the right level and number of people that you need in any operation. So, we look at head count as well. That's what we call expense management, and that should yield results in the short term.
+Sam create action in Jira to migrate sql to Aurora.
+The second one is through reengineering, and even more than that, business transformation. For that, we have the possibility of doing it now that we are moving to a global operating platform based on unique IT platform for the core systems, for internet, for mobile. Everything is going to become global, and if you have one system, this is the power of one. You can actually save a lot of money from having different software groups in different countries developing and adjusting systems. You have to have of course a very robust global governance system. We have created that over the last year through the Global Consumer Council. So, both expense management and reengineering.
+Lets take the remaining discusison offline.
