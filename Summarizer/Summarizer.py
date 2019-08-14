@@ -6,28 +6,18 @@ from string import punctuation
 from nltk.probability import FreqDist
 from heapq import nlargest
 from collections import defaultdict
-from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
 
-#from app import APP_ROOT
-
+bot_name = "SAM"
 
 class Summarizer:
     # __file__ refers to the file settings.py
 
     def getsummary(self,content):
-        """ Drive the process from argument to output """
-        #args = self.parse_arguments()
-
-        #content = self.read_file(args.filepath)
-        #print(content)
-        #content = self.sanitize_input("Prateek test")
-        #content = self.read_file(filepath)
         sentence_tokens, word_tokens = self.tokenize_content(content)
-        #self.extract_actions(sentence_tokens)
         sentence_ranks = self.score_tokens(word_tokens, sentence_tokens)
-
         return self.summarize(sentence_ranks, sentence_tokens, 4)
+
 
     def parse_arguments(self):
         """ Parse command line arguments """
@@ -38,16 +28,80 @@ class Summarizer:
 
         return args
 
-    def extract_actions(self,sentence_tokens):
-        ret_val =[]
-        action_choices = ["action item", "take note" , "actionable item" , "take offline"]
-        for action in action_choices:
-            sentences = process.extract(action,sentence_tokens,limit=10)
-            for sentence in sentences:
-                if sentence[1] > 85:
-                    ret_val.append(sentence[0])
-        print(list(set(ret_val)))
-        return list(set(ret_val))
+    def extract_actions(self, content, sentence_tokens= None):
+        if content:
+            sentence_tokens, word_tokens = self.tokenize_content(content)
+        action_choices = ["Okay sam action item","Okay sam create task"]
+        note_choices = ["Okay sam take note"]
+        jira_choices = ["Okay sam create jira ticket"]
+        highlight_choices = ["Okay sam highlight"]
+        actions = []
+        notes = []
+        highlights = []
+        jiras = []
+        for sentence in sentence_tokens:
+            match = 0
+            for action in action_choices:
+                if sentence.startswith(action):
+                    match = 1
+                    actions.append(sentence)
+                    continue
+
+            if match == 1:
+                continue
+
+            for choice in note_choices:
+                if sentence.startswith(choice):
+                    match = 1
+                    notes.append(sentence)
+                    continue
+
+            if match == 1:
+                continue
+
+            for choice in jira_choices:
+                if sentence.startswith(choice):
+                    match = 1
+                    jiras.append(sentence)
+                    continue
+
+            if match == 1:
+                continue
+
+            for choice in highlight_choices:
+                if sentence.startswith(choice):
+                    match = 1
+                    highlights.append(sentence)
+                    continue
+
+            if match == 1:
+                continue
+
+        ret_val = {
+            "actions" : action_choices,
+            "notes": notes,
+            "highlights": highlights,
+            "jiras": jiras
+        }
+
+        # for action in action_choices:
+        #     sentences = process.extract(action,sentence_tokens,limit=10)
+        #     for sentence in sentences:
+        #         if sentence[1] > 85:
+        #             list.append(sentence[0])
+        # if list:
+        #     ret_val["action"]= list
+        #     list=[]
+        # for choice in note_choices:
+        #     sentences = process.extract(choice,sentence_tokens,limit=10)
+        #     for sentence in sentences:
+        #         if sentence[1] > 90:
+        #             list.append(sentence[0])
+        # if list:
+        #     ret_val["notes"]= list
+        #     list=[]
+        # #print(list(set(ret_val)))
+        return ret_val
 
 
 

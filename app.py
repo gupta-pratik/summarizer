@@ -19,7 +19,14 @@ def getsummary():
     transcript= req_data['content']
     obj = Summarizer()
     summary = obj.getsummary(transcript)
-    return summary
+    return jsonify({"summary":summary})
 
+
+@app.route('/getactions', methods=['POST'])
+def getactions():
+    req_data = request.get_json()
+    transcript= req_data['content']
+    obj = Summarizer()
+    return jsonify(obj.extract_actions(transcript))
 
 app.run()
