@@ -7,12 +7,15 @@ from nltk.probability import FreqDist
 from heapq import nlargest
 from collections import defaultdict
 from fuzzywuzzy import process
+import pdb
+pdb.set_trace()
+from Summarizer.integration import PodioIntegration
 
 bot_name = "SAM"
 
 class Summarizer:
     # __file__ refers to the file settings.py
-
+    podio = PodioIntegration("prateek.gupta@citrix.com","test")
     def getsummary(self,content):
         sentence_tokens, word_tokens = self.tokenize_content(content)
         sentence_ranks = self.score_tokens(word_tokens, sentence_tokens)
@@ -31,15 +34,17 @@ class Summarizer:
     def extract_actions(self, content, sentence_tokens= None):
         if content:
             sentence_tokens, word_tokens = self.tokenize_content(content)
-        action_choices = ["Okay sam action item","Okay sam create task"]
-        note_choices = ["Okay sam take note"]
-        jira_choices = ["Okay sam create jira ticket"]
-        highlight_choices = ["Okay sam highlight"]
+        print(sentence_tokens)
+        action_choices = ["okay sam action item","okay sam create task"]
+        note_choices = ["okay sam take note", "okay sam take a note"]
+        jira_choices = ["okay sam create jira ticket"]
+        highlight_choices = ["okay sam highlight"]
         actions = []
         notes = []
         highlights = []
         jiras = []
         for sentence in sentence_tokens:
+            sentence = sentence.lower()
             match = 0
             for action in action_choices:
                 if sentence.startswith(action):
@@ -74,16 +79,15 @@ class Summarizer:
                     highlights.append(sentence)
                     continue
 
-            if match == 1:
-                continue
 
         ret_val = {
-            "actions" : action_choices,
+            "actions" : actions,
             "notes": notes,
             "highlights": highlights,
             "jiras": jiras
         }
 
+        self.podio.add_task_to_podio(actions)
         # for action in action_choices:
         #     sentences = process.extract(action,sentence_tokens,limit=10)
         #     for sentence in sentences:
