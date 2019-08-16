@@ -8,14 +8,14 @@ from heapq import nlargest
 from collections import defaultdict
 from fuzzywuzzy import process
 import pdb
-pdb.set_trace()
-from Summarizer.integration import PodioIntegration
+from SummarizerPackage.integration import PodioIntegration, CWSIntegration
 
 bot_name = "SAM"
 
 class Summarizer:
     # __file__ refers to the file settings.py
-    podio = PodioIntegration("prateek.gupta@citrix.com","test")
+    podio = PodioIntegration("aparna.joshi@citrix.com","Podio!2345")
+    cws = CWSIntegration()
     def getsummary(self,content):
         sentence_tokens, word_tokens = self.tokenize_content(content)
         sentence_ranks = self.score_tokens(word_tokens, sentence_tokens)
@@ -26,14 +26,17 @@ class Summarizer:
         """ Parse command line arguments """
         parser = argparse.ArgumentParser()
         parser.add_argument('filepath', help='File name of text to summarize')
-        parser.add_argument('-l', '--length', default=4, help='Number of sentences to return')
+        parser.add_argument('-l', '--length', default=1, help='Number of sentences to return')
         args = parser.parse_args()
 
         return args
 
     def extract_actions(self, content, sentence_tokens= None):
+        summary = ""
         if content:
             sentence_tokens, word_tokens = self.tokenize_content(content)
+            sentence_ranks = self.score_tokens(word_tokens, sentence_tokens)
+            summary = self.summarize(sentence_ranks, sentence_tokens, 1)
         print(sentence_tokens)
         action_choices = ["okay sam action item","okay sam create task"]
         note_choices = ["okay sam take note", "okay sam take a note"]
@@ -79,15 +82,18 @@ class Summarizer:
                     highlights.append(sentence)
                     continue
 
-
+        print("Summary is::", summary)
         ret_val = {
+            "summary": summary,
             "actions" : actions,
             "notes": notes,
             "highlights": highlights,
             "jiras": jiras
         }
-
-        self.podio.add_task_to_podio(actions)
+        print("Actions>>>", actions)
+        tasks = self.podio.add_task_to_podio(actions)
+        res = self.cws.push_notification(tasks,ret_val)
+        print(res)
         # for action in action_choices:
         #     sentences = process.extract(action,sentence_tokens,limit=10)
         #     for sentence in sentences:

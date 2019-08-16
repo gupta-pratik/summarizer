@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 
-from Summarizer.Summarizer import Summarizer
+from SummarizerPackage.SSummarizer import Summarizer
 import os
 
 app = Flask(__name__)
@@ -25,6 +25,7 @@ def getsummary():
 @app.route('/getactions', methods=['POST'])
 def getactions():
     req_data = request.get_json()
+    print(req_data)
     transcript= req_data['content']
     obj = Summarizer()
     return jsonify(obj.extract_actions(transcript))
