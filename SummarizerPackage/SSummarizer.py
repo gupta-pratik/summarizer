@@ -8,13 +8,14 @@ from heapq import nlargest
 from collections import defaultdict
 from fuzzywuzzy import process
 import pdb
+import re
 from SummarizerPackage.integration import PodioIntegration, CWSIntegration
 
 bot_name = "SAM"
 
 class Summarizer:
     # __file__ refers to the file settings.py
-    podio = PodioIntegration("aparna.joshi@citrix.com","Podio!2345")
+    podio = PodioIntegration("aparna.joshi@citrix.com","XXXXX")
     cws = CWSIntegration()
     def getsummary(self,content):
         sentence_tokens, word_tokens = self.tokenize_content(content)
@@ -36,50 +37,55 @@ class Summarizer:
         if content:
             sentence_tokens, word_tokens = self.tokenize_content(content)
             sentence_ranks = self.score_tokens(word_tokens, sentence_tokens)
-            summary = self.summarize(sentence_ranks, sentence_tokens, 1)
-        print(sentence_tokens)
-        action_choices = ["okay sam action item","okay sam create task"]
-        note_choices = ["okay sam take note", "okay sam take a note"]
-        jira_choices = ["okay sam create jira ticket"]
-        highlight_choices = ["okay sam highlight"]
+            summary = self.summarize(sentence_ranks, sentence_tokens, 4)
+        action_choices = ["donald action item","donald create task","donald create action item"]
+        note_choices = ["donald take note", "donald take a note"]
+        jira_choices = ["donald create jira ticket"]
+        highlight_choices = ["donald highlight"]
         actions = []
         notes = []
         highlights = []
         jiras = []
         for sentence in sentence_tokens:
-            sentence = sentence.lower()
+            sentence = sentence.lower().strip()
             match = 0
             for action in action_choices:
-                if sentence.startswith(action):
+                #print(">>>Action:",action)
+                regex = "\s*"+action+"\s\w*\s*"
+                if re.match(regex,sentence,re.IGNORECASE):
                     match = 1
-                    actions.append(sentence)
+                    print("@@@@@@@@@")
+                    actions.append(re.sub(regex,"",sentence,re.IGNORECASE))
                     continue
 
             if match == 1:
                 continue
 
             for choice in note_choices:
-                if sentence.startswith(choice):
+                regex = "\s*" + choice + "\s\w*\s*"
+                if re.match(regex, sentence, re.IGNORECASE):
                     match = 1
-                    notes.append(sentence)
+                    notes.append(re.sub(regex,"",sentence,re.IGNORECASE))
                     continue
 
             if match == 1:
                 continue
 
             for choice in jira_choices:
-                if sentence.startswith(choice):
+                regex = "\s*" + choice + "\s\w*\s*"
+                if re.match(regex, sentence, re.IGNORECASE):
                     match = 1
-                    jiras.append(sentence)
+                    jiras.append(re.sub(regex,"",sentence,re.IGNORECASE))
                     continue
 
             if match == 1:
                 continue
 
             for choice in highlight_choices:
-                if sentence.startswith(choice):
+                regex = "\s*" + choice + "\s\w*\s*"
+                if re.match(regex, sentence, re.IGNORECASE):
                     match = 1
-                    highlights.append(sentence)
+                    highlights.append(re.sub(regex,"",sentence,re.IGNORECASE))
                     continue
 
         print("Summary is::", summary)
@@ -92,8 +98,8 @@ class Summarizer:
         }
         print("Actions>>>", actions)
         tasks = self.podio.add_task_to_podio(actions)
-        res = self.cws.push_notification(tasks,ret_val)
-        print(res)
+        self.cws.push_notification(tasks,ret_val)
+        #print(res)
         # for action in action_choices:
         #     sentences = process.extract(action,sentence_tokens,limit=10)
         #     for sentence in sentences:
@@ -176,10 +182,12 @@ class Summarizer:
         the highest ranking sentences in order after converting from
         array to string.
         """
-        if int(length) > len(sentences):
+        count = length
+        if length > len(sentences):
             print("Error, more sentences requested than available. Use --l (--length) flag to adjust.")
-            exit()
+            #exit()
+            count = len(sentences)
 
-        indexes = nlargest(length, ranks, key=ranks.get)
+        indexes = nlargest(count, ranks, key=ranks.get)
         final_sentences = [sentences[j] for j in sorted(indexes)]
         return ' '.join(final_sentences)
